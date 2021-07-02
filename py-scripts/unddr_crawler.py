@@ -22,14 +22,8 @@ data_dir = os.path.join(main_dir, "data")
 mat_dir = os.path.join(main_dir, "materials")
 log_dir = os.path.join(main_dir, "logs")
 
-# Define scraper starting points
-start_urls = []
-
-starturl_filename = "drmkc_links.txt"
-with open(os.path.join(mat_dir, starturl_filename), 'r', encoding = "utf-8") as f:
-    for line in f:
-        start_urls.append(line.strip())
-    f.close()
+# Define scraper starting point
+start_url = 'https://www.unddr.org/', 'https://drmkc.jrc.ec.europa.eu/']
 
 # Create dirs
 if not os.path.isdir(data_dir):
@@ -38,28 +32,11 @@ if not os.path.isdir(data_dir):
 if not os.path.isdir(log_dir):
     os.mkdir(log_dir)
 
-# Read keywords
-kw_filename = "keywords.md"
-with open(os.path.join(mat_dir, kw_filename), 'r', encoding = "utf-8") as f:
-    kw_raw = f.read()
-    
-keywords = kw_raw.lower().split("\n\n")
-keywords = keywords[1:len(keywords)]
-
-# Read in already scraped URLs
-scraped_urls_filename = "scraped_urls.txt"
-already_scraped = list()
-if os.path.isfile(os.path.join(mat_dir, scraped_urls_filename)):
-    with open(os.path.join(mat_dir, scraped_urls_filename), 'r', encoding = 'utf-8') as f:
-        for line in f:
-            already_scraped.append(line.strip())
-        f.close()
-
 # Define scraper function
 def main(start_urls = start_urls, keywords = keywords):
     # Create class
-    class kw_spider (scrapy.Spider):
-        name = "kw_spider"
+    class drr_spider (scrapy.Spider):
+        name = "drr_spider"
 
         def start_requests(self, start_urls = start_urls):
             for start_url in start_urls:
@@ -128,15 +105,14 @@ def main(start_urls = start_urls, keywords = keywords):
                 
     #Initiatlize lists
     site_list = list()
-    scraped_urls = already_scraped
+    scraped_urls = list()
 
     # Set parameters
     start_urls = start_urls # start URLs
-    keywords = keywords # keywords
 
     #Run spider
     process = CrawlerProcess()
-    process.crawl(kw_spider)
+    process.crawl(drr_spider)
     process.start()
     
     return(site_list)
