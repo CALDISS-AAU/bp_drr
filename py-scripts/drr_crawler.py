@@ -8,7 +8,7 @@ modules_dir = os.path.join(main_dir, "modules")
 data_dir = os.path.join(main_dir, "data")
 log_dir = os.path.join(main_dir, "logs")
 
-sys.path.insert(0, modulesdir)
+sys.path.insert(0, modules_dir)
 
 from drr_htmlparsers import unddr_parser
 from drr_htmlparsers import drmkc_parser
