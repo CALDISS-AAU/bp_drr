@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 outname = "drr_scrape{}.json".format(str(datetime.now().date()))
 
 # Define scraper starting point
-start_url = ['https://www.unddr.org/', 'https://drmkc.jrc.ec.europa.eu/']
+start_urls = ['https://www.unddr.org/', 'https://drmkc.jrc.ec.europa.eu/']
 
 # Set name for logfile
 log_filename = "drr_scraper.log"
