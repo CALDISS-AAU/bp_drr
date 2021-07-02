@@ -54,7 +54,7 @@ except IOError:
         json.dump([], f)
     
 # Define scraper function
-def main(start_urls = start_urls, keywords = keywords):
+def main(start_urls = start_urls):
     # Create class
     class drr_spider (scrapy.Spider):
         name = "drr_spider"
