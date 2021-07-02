@@ -90,6 +90,7 @@ def main(start_urls = start_urls):
                 return
             
             page_html = response.body
+            page_soup = bs(page_html, "html.parser")
             
             try:
                 page_links = list(set([re.sub(r'\/$', '', tag['href']) for tag in page_soup.find_all('a') if tag.has_attr('href')]))
