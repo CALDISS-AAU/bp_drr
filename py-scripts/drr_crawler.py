@@ -61,24 +61,25 @@ def main(start_urls = start_urls):
 
         def start_requests(self, start_urls = start_urls):
             for start_url in start_urls:
-                self.start_url = start_url
                 if start_url not in scraped_urls:
                     logger.info("Starting scrape for {start_url}...".format(start_url = start_url))
-                    yield scrapy.Request(url = start_url, callback = self.parse)
+                    yield scrapy.Request(url = start_url, callback = self.parse, meta = {'start_url': start_url})
                 else:
                     continue
 
         #Parsing
         def parse(self, response):
             logger.info("Scraping {}...".format(response.url))
+            start_url = response.meta.get('start_url')
 
             site_dict = {}
 
             page_url = response.url
             domain_url = "https://" + urlparse(page_url).netloc
-            start_domain_url = "https://" + urlparse(self.start_url).netloc
+            start_domain_url = "https://" + urlparse(start_url).netloc
 
             if domain_url != start_domain_url:
+                logger.info(f"Start url is {start_url}")
                 return
           
             # Set page parser
@@ -87,6 +88,7 @@ def main(start_urls = start_urls):
             elif "drmkc.jrc.ec" in page_url:
                 page_parser = drmkc_parser
             else:
+                logger.info("No valid parser")
                 return
             
             page_html = response.body
@@ -116,11 +118,12 @@ def main(start_urls = start_urls):
                     more_pages = False
 
             except:
+                logger.info("parsing failed")
                 more_pages = False       
 
             if more_pages:
                 for url in new_urls:
-                    yield scrapy.Request(url = urljoin(page_url, url), callback=self.parse)
+                    yield response.follow(url = urljoin(page_url, url), callback=self.parse, meta = {'start_url': response.meta.get('start_url')})
                         
             
             # Save scraped data           
