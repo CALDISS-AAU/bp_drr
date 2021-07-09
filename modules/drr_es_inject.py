@@ -11,8 +11,8 @@ fields = {"id": {"type": "keyword"},
 		  }
 		  
 		  
-def connect(host='localhost', port=9200):
-    return Elasticsearch([{'host':host,'port':port}])
+def connect(passwd, user = 'elastic', host='localhost', port=9200):
+    return Elasticsearch([{'host':host,'port':port}], http_auth=(user, passwd))
 
 
 def create(es, delete=True, index='drr'):
