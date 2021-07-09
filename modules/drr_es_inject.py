@@ -49,7 +49,7 @@ def inject_doc(es, docno, doc, index='drr', verbose=False):
     
     es.index(index=index, doc_type='_doc', id=docno, body=doc)
 
-def inject(docs, index='drr', host='localhost', port=9200, verbose=False, verify=True):
+def inject(docs, passwd, user = 'elastic', index='drr', host='localhost', port=9200, verbose=False, verify=True):
 
     if verify:
         if verify_docs(docs, verbose=verbose):
@@ -58,7 +58,7 @@ def inject(docs, index='drr', host='localhost', port=9200, verbose=False, verify
             return None
         
     docnos = []
-    es = connect(host, port)
+    es = connect(passwd, user, host, port)
     create(es, index=index)
     
     for key in docs:
