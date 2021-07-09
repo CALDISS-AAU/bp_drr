@@ -1,0 +1,5 @@
+*ipynb_check*
+data
+logs
+*__pycache*
+*nohup*.out*
