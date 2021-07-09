@@ -1,3 +1,6 @@
 *ipynb_checkpoints
 start_instance.sh
 data
+logs
+*__pycache*
+*nohup*.out*
